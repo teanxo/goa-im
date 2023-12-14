@@ -12,11 +12,11 @@ const menuList = [
         label: '在线聊天',
         path: '/im'
     },
-    {
-        key: 'my',
-        label: '关于我们',
-        path: '/about' 
-    }
+    // {
+    //     key: 'my',
+    //     label: '关于我们',
+    //     path: '/about' 
+    // }
 ]
 
 const WebLayout = ({ children }) => {

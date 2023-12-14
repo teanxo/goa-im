@@ -1,16 +1,37 @@
-.friend{
-    height: inherit;
+.friendList {
+    width: 100%;
+    height: 70vh;
+    overflow-y: auto;
 }
 
-.scrollableFriend{
-    width: 300px;
-    padding: 0 16px;
-    border: 1px solid rgba(140, 140, 140, 0.35);
-    overflow: auto;
+.chatContainer{
+    height: 70vh;
+    overflow-y: auto;
+    word-wrap: break-word; /* 允许在边界处断行 */
+    word-break: break-all; /* 在任意字符间断行 */
+    width: 100%; /* 如果您希望宽度填满父容器 */
+}
+
+.chatItem{
+    display: flex;
+    align-items: flex-start;
+    padding: 0px;
+}
+
+.chatItemAvatar{
+    margin-right: 8px;
+}
+
+.chatItemNickName{
+    margin-bottom: 4px;
+    font-weight: bold;
+}
+
+.chatOperation{
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
 }
 
 
-
-.container{
-    height: 700px;
-}
