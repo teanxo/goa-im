@@ -1,8 +1,10 @@
 import Layout from '../../components/Layout'
 import { List, Avatar, Button, Row, Col, Card, Input, Space, Badge } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { AudioOutlined, SmileTwoTone, VideoCameraOutlined } from '@ant-design/icons'
+import { AudioOutlined, SmileTwoTone, VideoCameraOutlined, CameraOutlined } from '@ant-design/icons'
 import './index.css'
+
+const loginUUID = "217481278101284012"
 
 function IM() {
     const [loading, setLoading] = useState(false);
@@ -11,13 +13,40 @@ function IM() {
     // 文本框输入值
     const [inputValue, setInputValue] = useState('')
     // 消息记录
-    const [messages, setMessages] = useState([])
+    const [messages, setMessages] = useState([
+        { loginUUID: "217481278101284012", text: "你好！" },
+        { loginUUID: "328932582975283592", text: "嗨，你好！" },
+        // ... 其他消息
+    ])
     // 当前聊天对象
     const [currentFriend, setCurrentFriend] = useState(null)
 
     const renderChatTitle = () => {
         if (!currentFriend) return '暂无聊天对象'
         return '聊天对话-' + currentFriend.name.last
+    }
+
+    const renderMessageItem = (message) => {
+        const isMyMessage = message.loginUUID === loginUUID;
+
+        const messageStyle = {
+            alignSelf: isMyMessage ? 'flex-end' : 'flex-start',
+            backgroundColor: isMyMessage ? '#daf8cb' : '#f1f0f0',
+            borderRadius: '10px',
+            padding: '8px',
+            maxWidth: '60%',
+            wordWrap: 'break-word',
+            wordBreak: 'break-all',
+            margin: '4px 0',
+        };
+
+        return (
+            <div style={{ display: 'flex', width: '100%', justifyContent: isMyMessage ? 'flex-end' : 'flex-start' }}>
+                {!isMyMessage && <Avatar src="https://randomuser.me/api/portraits/men/99.jpg" style={{ marginRight: '10px' }} />}
+                <div style={messageStyle}>{message.text}</div>
+                {isMyMessage && <Avatar src="https://randomuser.me/api/portraits/men/99.jpg" style={{ marginLeft: '10px' }} />}
+            </div>
+        );
     }
 
     // 输入框输入事件
@@ -28,7 +57,7 @@ function IM() {
     // 消息发送事件
     const sendMessage = () => {
         if (!inputValue.trim()) return
-        setMessages([...messages, inputValue])
+        setMessages([...messages, {loginUUID: loginUUID, text: inputValue}])
         setInputValue('')
     }
 
@@ -37,6 +66,7 @@ function IM() {
         setCurrentFriend(item)
     }
 
+    // 加载好友列表
     const loadMoreFriendData = () => {
         if (loading) {
             return;
@@ -96,7 +126,13 @@ function IM() {
                         <Card
                             title={renderChatTitle()}>
                             <div className='chatContainer'>
-                                <List
+                                {messages.map((message, index) => (
+                                    <div key={index}>
+                                        {renderMessageItem(message)}
+                                    </div>
+                                ))}
+
+                                {/* <List
                                     split={false}
                                     style={{ height: '100%' }}
                                     dataSource={messages}
@@ -108,26 +144,26 @@ function IM() {
                                                     src="https://randomuser.me/api/portraits/men/99.jpg"
                                                     className='chatItemAvatar'
                                                 />
-                                                <div style={{flex: 1, minWidth:0}}>
+                                                <div style={{ flex: 1, minWidth: 0 }}>
                                                     <div className='chatItemNickName'>用户昵称</div>
                                                     <div className='chatContent'>{message}</div>
                                                 </div>
                                             </div>
                                         </List.Item>
                                     )}
-                                />
+                                /> */}
                             </div>
 
                             <div className='chatOperation'>
                                 <Row>
                                     <Col span={4} style={{ display: 'flex' }}>
-                                        <Button
-                                            type='primary'
-                                            icon={<VideoCameraOutlined />}
-                                            style={{ flex: 1 }}
-                                        ></Button>
-                                        <Button type='primary' icon={<AudioOutlined />} style={{ flex: 1 }}></Button>
-                                        <Button type='primary' icon={<SmileTwoTone />} style={{ flex: 1 }}></Button>
+                                        <Space.Compact block>
+                                            <Button type='primary' icon={<AudioOutlined />} style={{ flex: 1 }}></Button>
+                                            <Button type='primary' icon={<VideoCameraOutlined />} style={{ flex: 1 }}></Button>
+                                            <Button type='primary' icon={<CameraOutlined />} style={{ flex: 1 }}></Button>
+                                            <Button type='primary' icon={<SmileTwoTone />} style={{ flex: 1 }}></Button>
+                                        </Space.Compact>
+
                                     </Col>
                                     <Col span={20}>
                                         <Space.Compact style={{ width: '100%' }}>

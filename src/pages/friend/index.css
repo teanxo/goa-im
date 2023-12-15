@@ -1,0 +1,15 @@
+.webContainer{
+    margin: 0 auto;
+    width: 1000px;
+    /* background-color: red; */
+    height: 90vh;
+}
+
+.friendView{
+    width: 100%;
+}
+
+
+.addRecommend{
+    margin-top: 10px;
+}
